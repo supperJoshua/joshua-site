@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Joshua（张健华）数字生命个人站：不良资产处置实务派 × 全栈极客，用 AI 重写金融法律实务，一个人活成一支队伍。">
+<meta name="theme-color" content="#0B1E3F">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<meta property="og:title" content="Joshua · 数字生命">
+<meta property="og:description" content="在债务废墟里提炼价值的数字炼金术士。用 AI 重写金融法律实务，一个人活成一支队伍。">
+<meta property="og:type" content="website">
+<!-- 上线部署后，og:image 需替换为公网绝对 URL（图床/站点域名），本地相对路径在分享预览中不生效 -->
+<meta property="og:image" content="assets/og-banner.jpg">
+<title>Joshua · 数字生命</title>
+<style>
+  @font-face {
+    font-family: "Source Han Sans SC VF";
+    src: url("https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao/infinite-canvas/fonts/v1/source-han-sans-sc-vf/source-han-sans-sc-vf.otf") format("opentype");
+    font-weight: 250 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Montserrat";
+    src: url("https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao/infinite-canvas/fonts/v1/montserrat/montserrat-regular.ttf") format("truetype");
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "Montserrat";
+    src: url("https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao/infinite-canvas/fonts/v1/montserrat/montserrat-medium.ttf") format("truetype");
+    font-weight: 500; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "Montserrat";
+    src: url("https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao/infinite-canvas/fonts/v1/montserrat/montserrat-semi-bold.ttf") format("truetype");
+    font-weight: 600; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "Montserrat";
+    src: url("https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao/infinite-canvas/fonts/v1/montserrat/montserrat-bold.ttf") format("truetype");
+    font-weight: 700; font-style: normal; font-display: swap;
+  }
+
+  :root {
+    --blue-deep: #0B1E3F;
+    --blue-main: #122C55;
+    --cyan: #22D3EE;
+    --gold: #C9A227;
+    --silver: #E5E9F0;
+    --muted: #9FB0C8;
+    --line: rgba(34, 211, 238, 0.16);
+    --font-zh: "Source Han Sans SC VF", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --font-en: "Montserrat", "Arial", "Helvetica Neue", sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  html, body { background: var(--blue-deep); }
+  body { font-family: var(--font-zh); color: var(--silver); line-height: 1.6; }
+  a { color: inherit; }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- Nav ---------- */
+  .nav { position: sticky; top: 0; z-index: 20; background: rgba(11,30,63,0.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; height: 72px; display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand img { width: 34px; height: 34px; }
+  .brand .name { font-family: var(--font-en); font-weight: 700; font-size: 19px; letter-spacing: 0.14em; color: var(--silver); }
+  .nav-links { display: flex; gap: 30px; }
+  .nav-links a { font-size: 15px; color: var(--muted); text-decoration: none; }
+  .nav-links a:hover { color: var(--cyan); }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 88px 0 72px; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-en); font-weight: 600; font-size: 14px; letter-spacing: 0.22em; color: var(--cyan); margin-bottom: 26px; }
+  .eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--cyan); }
+  .hero h1 { font-weight: 900; font-size: clamp(46px, 6vw, 80px); line-height: 1.04; letter-spacing: 0.01em; color: var(--silver); }
+  .hero h1 .en { display: block; font-family: var(--font-en); font-weight: 700; }
+  .hero .persona { margin-top: 24px; font-size: clamp(20px, 2.2vw, 26px); font-weight: 500; color: var(--silver); }
+  .hero .claim { margin-top: 16px; font-size: 17px; line-height: 1.75; color: var(--muted); max-width: 560px; }
+  .cta-row { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 16px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; height: 50px; padding: 0 26px; border-radius: 12px; font-size: 16px; font-weight: 600; text-decoration: none; }
+  .btn-primary { background: var(--cyan); color: var(--blue-deep); }
+  .btn-ghost { border: 1px solid var(--line); color: var(--silver); }
+  .chips { margin-top: 38px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .chip { padding: 9px 18px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; color: var(--muted); }
+  .hero-right { position: relative; display: flex; justify-content: center; }
+  .halo { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, rgba(34,211,238,0.18), transparent 62%); }
+  .hero-right img.portrait { position: relative; width: 100%; max-width: 460px; height: auto; object-fit: contain; }
+
+  /* ---------- Section common ---------- */
+  section { padding: 64px 0; scroll-margin-top: 72px; }
+  .sec-label { font-family: var(--font-en); font-weight: 600; font-size: 14px; letter-spacing: 0.24em; color: var(--cyan); }
+  .sec-title { margin-top: 12px; font-weight: 700; font-size: clamp(28px, 3vw, 38px); color: var(--silver); }
+  .sec-intro { margin-top: 16px; font-size: 16px; line-height: 1.8; color: var(--muted); max-width: 760px; }
+
+  /* ---------- About ---------- */
+  .about-grid { margin-top: 40px; display: grid; grid-template-columns: 300px 1fr; gap: 48px; align-items: start; }
+  .avatar-box { width: 300px; height: 300px; border-radius: 28px; overflow: hidden; border: 1px solid var(--line); background: var(--blue-main); }
+  .avatar-box img { width: 100%; height: 100%; object-fit: contain; }
+  .about-cards { display: flex; flex-direction: column; gap: 22px; }
+  .about-card { background: rgba(18,44,85,0.6); border: 1px solid var(--line); border-radius: 20px; padding: 28px 30px; }
+  .about-card h3 { font-size: 20px; font-weight: 700; color: var(--silver); margin-bottom: 12px; }
+  .about-card p { font-size: 16px; line-height: 1.85; color: var(--muted); }
+  .disclaimer { margin-top: 24px; font-size: 13px; line-height: 1.8; color: var(--muted); border-left: 2px solid var(--gold); padding-left: 16px; }
+
+  /* ---------- Capabilities ---------- */
+  .cap-grid { margin-top: 40px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .cap-card { background: rgba(18,44,85,0.6); border: 1px solid var(--line); border-radius: 22px; padding: 30px 30px; }
+  .cap-card .idx { font-family: var(--font-en); font-weight: 700; font-size: 15px; color: var(--gold); letter-spacing: 0.12em; }
+  .cap-card h3 { margin-top: 12px; font-size: 21px; font-weight: 700; color: var(--silver); }
+  .cap-card p { margin-top: 12px; font-size: 16px; line-height: 1.8; color: var(--muted); }
+
+  /* ---------- Works ---------- */
+  .work-grid { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .work-card { border: 1px dashed var(--line); border-radius: 22px; padding: 30px 28px; background: rgba(18,44,85,0.35); min-height: 280px; display: flex; flex-direction: column; }
+  .work-card .tag { font-family: var(--font-en); font-size: 13px; letter-spacing: 0.16em; color: var(--cyan); }
+  .work-card h3 { margin-top: 16px; font-size: 19px; font-weight: 700; color: var(--silver); }
+  .work-card p { margin-top: 12px; font-size: 15px; line-height: 1.8; color: var(--muted); }
+  .work-card .pending { margin-top: auto; padding-top: 22px; font-size: 13px; color: var(--muted); }
+
+  /* ---------- Agent ---------- */
+  .agent-box { margin-top: 40px; display: grid; grid-template-columns: 340px 1fr; gap: 36px; background: rgba(18,44,85,0.6); border: 1px solid var(--line); border-radius: 26px; padding: 36px; }
+  .agent-avatar { width: 340px; height: 340px; border-radius: 24px; overflow: hidden; background: var(--blue-main); border: 1px solid var(--line); }
+  .agent-avatar img { width: 100%; height: 100%; object-fit: contain; }
+  .agent-info h3 { font-size: 23px; font-weight: 700; color: var(--silver); }
+  .agent-info p { margin-top: 16px; font-size: 16px; line-height: 1.85; color: var(--muted); }
+  .status-row { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .status { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; color: var(--silver); }
+  .status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
+  .status.off .dot { background: var(--gold); }
+  .chat-placeholder { margin-top: 28px; min-height: 64px; border: 1px solid var(--line); border-radius: 16px; display: flex; align-items: center; padding: 18px 24px; color: var(--muted); font-size: 15px; background: rgba(11,30,63,0.6); }
+
+  /* ---------- Contact ---------- */
+  .channel-grid { margin-top: 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .channel { border: 1px solid var(--line); border-radius: 20px; padding: 28px 24px; text-align: center; }
+  .channel .icon { width: 52px; height: 52px; margin: 0 auto; border-radius: 14px; background: rgba(34,211,238,0.10); display: flex; align-items: center; justify-content: center; font-family: var(--font-en); font-weight: 700; color: var(--cyan); font-size: 20px; }
+  .channel h3 { margin-top: 16px; font-size: 17px; font-weight: 600; color: var(--silver); }
+  .channel p { margin-top: 10px; font-size: 13px; color: var(--muted); }
+
+  /* ---------- Footer ---------- */
+  .footer { margin-top: 40px; border-top: 1px solid var(--line); }
+  .footer-inner { max-width: 1200px; margin: 0 auto; padding: 40px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .footer .brand { gap: 12px; }
+  .footer .brand img { width: 30px; height: 30px; }
+  .footer .brand .name { font-family: var(--font-en); font-weight: 600; font-size: 16px; letter-spacing: 0.12em; }
+  .footer .note { max-width: 560px; font-size: 13px; line-height: 1.8; color: var(--muted); text-align: right; }
+
+  /* ---------- Responsive: tablet ---------- */
+  @media (max-width: 1023px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+    .hero-right { order: -1; }
+    .hero-right img.portrait { max-width: 340px; }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .avatar-box { width: 260px; height: 260px; }
+    .work-grid { grid-template-columns: repeat(2, 1fr); }
+    .agent-box { grid-template-columns: 1fr; gap: 28px; }
+    .agent-avatar { width: 280px; height: 280px; }
+    .channel-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ---------- Responsive: mobile ---------- */
+  @media (max-width: 639px) {
+    .wrap, .nav-inner, .footer-inner { padding-left: 20px; padding-right: 20px; }
+    .nav-links { gap: 18px; overflow-x: auto; }
+    .nav-links a { font-size: 14px; white-space: nowrap; }
+    .hero { padding: 48px 0 40px; }
+    .cap-grid, .work-grid, .channel-grid { grid-template-columns: 1fr; }
+    .avatar-box, .agent-avatar { width: 100%; height: auto; aspect-ratio: 1/1; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+    .footer .note { text-align: left; }
+    section { padding: 48px 0; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <img src="assets/logo.png" alt="Joshua 图形标">
+        <span class="name">JOSHUA</span>
+      </a>
+      <div class="nav-links">
+        <a href="#about">关于</a>
+        <a href="#caps">能力</a>
+        <a href="#works">产出</a>
+        <a href="#agent">分身</a>
+        <a href="#contact">联系</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+
+    <!-- Hero -->
+    <header class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div class="hero-left">
+            <span class="eyebrow">DIGITAL TWIN · 数字生命</span>
+            <h1><span class="en">JOSHUA</span>张健华</h1>
+            <p class="persona">在债务废墟里提炼价值的数字炼金术士</p>
+            <p class="claim">用 AI 重写金融法律实务，一个人活成一支队伍。把不良资产处置的实务经验，沉淀为可复用的方法、工作流与个人知识系统。</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="#agent">进入分身对话</a>
+              <a class="btn btn-ghost" href="#works">查看产出</a>
+            </div>
+            <div class="chips">
+              <span class="chip">理性</span>
+              <span class="chip">克制</span>
+              <span class="chip">深夜高产</span>
+              <span class="chip">手作感</span>
+              <span class="chip">在废墟中建造</span>
+            </div>
+          </div>
+          <div class="hero-right">
+            <div class="halo"></div>
+            <img class="portrait" src="assets/hero.jpg" alt="Joshua 身份母版">
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- About -->
+    <section id="about" class="about">
+      <div class="wrap">
+        <div class="sec-label">ABOUT</div>
+        <h2 class="sec-title">两个身份，一套工作流</h2>
+        <div class="about-grid">
+          <div class="avatar-box">
+            <img src="assets/avatar.png" alt="Joshua 头像">
+          </div>
+          <div class="about-cards">
+            <div class="about-card">
+              <h3>不良资产处置实务派</h3>
+              <p>熟悉尽调、执行、法拍监控、诉讼与债权管理的完整流程；讲流程、讲证据、讲可复用框架，把复杂个案拆解成可跟进的步骤。</p>
+            </div>
+            <div class="about-card">
+              <h3>全栈极客 · AI 工程化</h3>
+              <p>用 AI 工具链重构个人工作流，搭建个人知识库与 Agent 体系；持续探索 AI 原生的知识管理、自动化与数字分身实践。</p>
+            </div>
+            <p class="disclaimer">以下为个人实务经验与方法整理，不构成法律意见、投资建议或个案结论；具体案件请以正式法律文书及专业人士意见为准。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capabilities -->
+    <section id="caps">
+      <div class="wrap">
+        <div class="sec-label">CAPABILITIES</div>
+        <h2 class="sec-title">能力矩阵</h2>
+        <p class="sec-intro">围绕实务与工程两条主线，沉淀可迁移的方法与系统。</p>
+        <div class="cap-grid">
+          <div class="cap-card">
+            <div class="idx">01</div>
+            <h3>不良资产处置实务</h3>
+            <p>尽调线索梳理、强制执行跟进、法拍资产监控、诉讼与债权管理的通用流程与方法框架。</p>
+          </div>
+          <div class="cap-card">
+            <div class="idx">02</div>
+            <h3>AI 工程化</h3>
+            <p>工作流自动化、提示词与 Agent 编排、工具链选型，把重复动作交给系统，把判断留给人。</p>
+          </div>
+          <div class="cap-card">
+            <div class="idx">03</div>
+            <h3>知识管理</h3>
+            <p>个人数字空间与知识库搭建，结构化沉淀资料、观点与经验，支持检索、复用与长期迭代。</p>
+          </div>
+          <div class="cap-card">
+            <div class="idx">04</div>
+            <h3>方法论提炼</h3>
+            <p>把实务经验转写成可复用的流程、模板与检查清单，形成可交付、可教学的方法资产。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Works -->
+    <section id="works">
+      <div class="wrap">
+        <div class="sec-label">SELECTED WORKS</div>
+        <h2 class="sec-title">精选产出</h2>
+        <p class="sec-intro">公开内容陆续上线；下列为占位结构，经本人批准的公开文章与项目在此填充。</p>
+        <div class="work-grid">
+          <div class="work-card">
+            <span class="tag">METHOD NOTES</span>
+            <h3>方法论与实务笔记</h3>
+            <p>尽调、执行、法拍与债权管理的通用流程梳理与经验复盘。</p>
+            <p class="pending">待填充：公开文章与标题链接</p>
+          </div>
+          <div class="work-card">
+            <span class="tag">WORKFLOW</span>
+            <h3>工具链与自动化工作流</h3>
+            <p>AI 辅助下的资料整理、检索、写作与跟踪自动化实践。</p>
+            <p class="pending">待填充：可公开的工作流示例</p>
+          </div>
+          <div class="work-card">
+            <span class="tag">KNOWLEDGE SYSTEM</span>
+            <h3>个人知识体系与数字分身</h3>
+            <p>个人知识库、角色口径与数字分身的搭建过程与思考。</p>
+            <p class="pending">待填充：体系说明与公开案例</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Agent -->
+    <section id="agent">
+      <div class="wrap">
+        <div class="sec-label">AGENT</div>
+        <h2 class="sec-title">与 Joshua 对话</h2>
+        <p class="sec-intro">对外分身以角色卡约束语气、口径与边界；事实只来自经本人批准的公开知识库，回答附来源与免责口径。</p>
+        <div class="agent-box">
+          <div class="agent-avatar">
+            <img src="assets/avatar.png" alt="分身头像">
+          </div>
+          <div class="agent-info">
+            <h3>数字分身 · 口径就绪，对话闭环待建</h3>
+            <p>分身不编造观点、履历与数据；知识库未覆盖的问题会明确说明「暂无公开资料依据」。涉及具体个案或专业判断时，引导以正式法律文书及专业人士意见为准。</p>
+            <div class="status-row">
+              <span class="status"><span class="dot"></span>角色卡口径就绪</span>
+              <span class="status"><span class="dot"></span>知识库结构就绪</span>
+              <span class="status off"><span class="dot"></span>对话检索闭环待接入</span>
+            </div>
+            <div class="chat-placeholder">分身对话即将上线 · 阶段 C 接入 RAG 检索闭环</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="wrap">
+        <div class="sec-label">CONTACT</div>
+        <h2 class="sec-title">找到 Joshua</h2>
+        <p class="sec-intro">公开渠道入口如下，真实链接与昵称待本人确认后补全。</p>
+        <div class="channel-grid">
+          <div class="channel">
+            <div class="icon">Gh</div>
+            <h3>GitHub</h3>
+            <p>链接待补</p>
+          </div>
+          <div class="channel">
+            <div class="icon">知</div>
+            <h3>知乎</h3>
+            <p>链接待补</p>
+          </div>
+          <div class="channel">
+            <div class="icon">红</div>
+            <h3>小红书</h3>
+            <p>链接待补</p>
+          </div>
+          <div class="channel">
+            <div class="icon">众</div>
+            <h3>公众号</h3>
+            <p>链接待补</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="brand">
+        <img src="assets/logo.png" alt="Joshua 图形标">
+        <span class="name">JOSHUA · 数字生命</span>
+      </div>
+      <p class="note">© 2026 Joshua。本站内容为个人经验与方法整理，不构成法律意见、投资建议或个案结论；具体案件以正式法律文书及专业人士意见为准。</p>
+    </div>
+  </footer>
+
+</body>
+</html>
