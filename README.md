@@ -7,7 +7,11 @@
 ```
 joshua-site/
 ├── index.html          # 站点主文件（内联 CSS，响应式）
+├── 404.html            # 404 占位页（同色系）
+├── robots.txt          # 搜索引擎抓取规则
+├── LICENSE             # 版权保留声明
 ├── .nojekyll           # 关闭 GitHub Pages 的 Jekyll 处理，保证静态资源原样发布
+├── deploy-local.sh     # 本地一键提交推送脚本
 ├── README.md
 └── assets/
     ├── favicon.png     # 站点图标（64×64 透明）
@@ -29,16 +33,27 @@ python3 -m http.server 8080
 
 仓库已在 GitHub 创建（`supperJoshua/joshua-site`，公开）。
 
-1. **补传图片（首次部署前必做）**：MCP 通道仅入库文本文件，`assets/` 下 5 张位图需在本地已登录 GitHub 的机器补传：
+1. **补传图片与文件（首次部署前必做）**：MCP 通道仅入库文本文件，`assets/` 下 5 张位图需在本地已登录 GitHub 的机器补传。两种方式任选：
 
-   ```bash
-   git clone https://github.com/supperJoshua/joshua-site.git
-   cd joshua-site
-   # 把交付包 assets/ 下的 favicon.png、logo.png、avatar.png、hero.jpg、og-banner.jpg 放入 assets/
-   git add assets/
-   git commit -m "add site assets"
-   git push
-   ```
+   - 一键脚本（推荐）：克隆仓库后，把交付包内全部文件覆盖进仓库目录，运行：
+
+     ```bash
+     git clone https://github.com/supperJoshua/joshua-site.git
+     cd joshua-site
+     # 覆盖本包文件（含 assets/ 五图）后执行：
+     bash deploy-local.sh
+     ```
+
+   - 手动方式：
+
+     ```bash
+     git clone https://github.com/supperJoshua/joshua-site.git
+     cd joshua-site
+     # 把交付包 assets/ 下的 favicon.png、logo.png、avatar.png、hero.jpg、og-banner.jpg 放入 assets/
+     git add assets/
+     git commit -m "add site assets"
+     git push
+     ```
 
    补图前 Pages 预览会裂图，属正常。
 
