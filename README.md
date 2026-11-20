@@ -1,16 +1,26 @@
 # Joshua · 数字生命（个人品牌站）
 
-数字生命 Joshua 对外个人品牌门面站，纯静态单文件 + 本地素材，无后端、无构建步骤、无 JS 依赖。
+数字生命 Joshua 对外个人品牌门面站，纯静态、无后端、无构建步骤、无 JS 依赖，响应式三档断点。
+
+## 两种 HTML 形态
+
+| 文件 | 形态 | 体积 | 用途 |
+|---|---|---|---|
+| `index.html` | **自包含单文件版**：favicon / logo / hero / avatar 已内嵌为 data URI，不依赖本地图片文件 | ~412KB | 网页端上传这一个文件即可带图上线，**推荐** |
+| `index.relative.html` | 相对路径版：图片引用 `assets/` 目录 | ~21KB | 正式部署、后续换图或接入构建流程时使用 |
+
+> 两版页面结构、文案、样式完全一致，仅图片引用方式不同。`og-banner.jpg` 是社交分享横幅，分享爬虫不识别 data URI，因此无论哪版都需作为独立文件放在 `assets/` 下。
 
 ## 目录结构
 
 ```
 joshua-site/
-├── index.html          # 站点主文件（内联 CSS，响应式）
+├── index.html          # 自包含单文件版（内嵌 favicon/logo/hero/avatar）
+├── index.relative.html # 相对路径版（引用 assets/，供正式部署/换图）
 ├── 404.html            # 404 占位页（同色系）
-├── robots.txt          # 搜索引擎抓取规则
+├── robots.txt         # 搜索引擎抓取规则
 ├── LICENSE             # 版权保留声明
-├── .nojekyll           # 关闭 GitHub Pages 的 Jekyll 处理，保证静态资源原样发布
+├── .nojekyll          # 关闭 GitHub Pages 的 Jekyll 处理
 ├── deploy-local.sh     # Linux / macOS / Git-Bash 一键提交推送脚本（备选）
 ├── deploy-local.ps1    # Windows PowerShell 一键提交推送脚本（备选，需已装 Git）
 ├── README.md
@@ -19,7 +29,7 @@ joshua-site/
     ├── logo.png        # 图形标（128×128 透明）
     ├── avatar.png      # 头像（256×256 透明）
     ├── hero.jpg        # Hero 母版立绘（900px 宽）
-    └── og-banner.jpg   # 社交分享横幅（1200px 宽）
+    └── og-banner.jpg   # 社交分享横幅（1200px 宽，必须独立上传）
 ```
 
 ## 本地预览
@@ -32,31 +42,37 @@ python3 -m http.server 8080
 
 ## GitHub Pages 部署
 
-仓库已在 GitHub 创建（`supperJoshua/joshua-site`，公开）。文本文件已入库，仅需补传 `assets/` 下 5 张位图并开启 Pages。
+仓库已在 GitHub 创建（`supperJoshua/joshua-site`，公开）。文本文件已入库，位图与 Pages 开关需在已登录 GitHub 的环境完成。
 
-### 方式一：网页端上传（推荐，无需安装 Git）
+### 方式一：网页端上传自包含单文件（推荐，操作最少，无需安装 Git）
 
 适合本机未装 Git 的 Windows / Mac：
 
 1. 浏览器登录 GitHub，打开仓库 `https://github.com/supperJoshua/joshua-site`。
-2. 点 **Add file → Upload files**。
-3. 先在仓库内进入 `assets/` 目录：地址栏访问 `https://github.com/supperJoshua/joshua-site/new/main/assets`，或在上传页把每张图的路径前缀写成 `assets/`。
-4. 把交付包 `assets/` 下的 5 张图拖入：`favicon.png`、`logo.png`、`avatar.png`、`hero.jpg`、`og-banner.jpg`。
-5. 页面下方填写提交信息（如 `add site assets`），点 **Commit changes**。
+2. **替换主文件**：进入 `index.html` → 铅笔编辑（或 Add file → Upload files），上传本包 `index.html`（自包含版）覆盖远端同名文件，提交。
+3. **补分享横幅**：进入 `assets/` 目录（地址栏访问 `https://github.com/supperJoshua/joshua-site/new/main/assets`），仅上传 `og-banner.jpg` 一张。
+   - favicon、logo、hero、avatar 已内嵌进 `index.html`，无需再传。
+4. 页面下方填写提交信息（如 `deploy: self-contained index + og banner`），点 **Commit changes**。
 
-### 方式二：Git 命令行（备选，需先安装 Git）
+### 方式二：网页端上传相对路径完整版
+
+1. 把本包 `index.relative.html` 重命名为 `index.html`。
+2. Add file → Upload files，连同 `assets/` 下 5 张图一起上传，路径前缀保持 `assets/`。
+3. 提交。
+
+### 方式三：Git 命令行（备选，需先安装 Git）
 
 ```bash
 git clone https://github.com/supperJoshua/joshua-site.git
 cd joshua-site
-# 覆盖本包文件（含 assets/ 五图）后，按系统执行其一：
+# 覆盖本包文件后，按系统执行其一：
 bash deploy-local.sh                 # Linux / macOS / Git-Bash
 powershell -ExecutionPolicy Bypass -File .\deploy-local.ps1   # Windows PowerShell
 ```
 
-手动等价操作：`git add assets/ && git commit -m "add site assets" && git push`。
+手动等价操作：`git add . && git commit -m "deploy site" && git push`。
 
-> 补图前 Pages 预览会裂图，属正常现象。
+> 补图 / 替换主文件前，Pages 预览可能裂图，属正常现象。
 
 ### 开启 Pages
 
@@ -90,3 +106,4 @@ powershell -ExecutionPolicy Bypass -File .\deploy-local.ps1   # Windows PowerShe
 - 无后端、无表单、无访问统计；联系渠道为静态占位卡片。
 - 移动端导航为横向滑动，未做汉堡菜单。
 - 分身对话框为占位，未接真实检索与大模型。
+- 自包含版把四张图内嵌进 HTML，单文件体积较大；后续若图片增多，建议切回相对路径版并由 Pages 独立缓存。
