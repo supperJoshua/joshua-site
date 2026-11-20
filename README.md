@@ -11,7 +11,8 @@ joshua-site/
 ├── robots.txt          # 搜索引擎抓取规则
 ├── LICENSE             # 版权保留声明
 ├── .nojekyll           # 关闭 GitHub Pages 的 Jekyll 处理，保证静态资源原样发布
-├── deploy-local.sh     # 本地一键提交推送脚本
+├── deploy-local.sh     # Linux / macOS / Git-Bash 一键提交推送脚本（备选）
+├── deploy-local.ps1    # Windows PowerShell 一键提交推送脚本（备选，需已装 Git）
 ├── README.md
 └── assets/
     ├── favicon.png     # 站点图标（64×64 透明）
@@ -31,35 +32,37 @@ python3 -m http.server 8080
 
 ## GitHub Pages 部署
 
-仓库已在 GitHub 创建（`supperJoshua/joshua-site`，公开）。
+仓库已在 GitHub 创建（`supperJoshua/joshua-site`，公开）。文本文件已入库，仅需补传 `assets/` 下 5 张位图并开启 Pages。
 
-1. **补传图片与文件（首次部署前必做）**：MCP 通道仅入库文本文件，`assets/` 下 5 张位图需在本地已登录 GitHub 的机器补传。两种方式任选：
+### 方式一：网页端上传（推荐，无需安装 Git）
 
-   - 一键脚本（推荐）：克隆仓库后，把交付包内全部文件覆盖进仓库目录，运行：
+适合本机未装 Git 的 Windows / Mac：
 
-     ```bash
-     git clone https://github.com/supperJoshua/joshua-site.git
-     cd joshua-site
-     # 覆盖本包文件（含 assets/ 五图）后执行：
-     bash deploy-local.sh
-     ```
+1. 浏览器登录 GitHub，打开仓库 `https://github.com/supperJoshua/joshua-site`。
+2. 点 **Add file → Upload files**。
+3. 先在仓库内进入 `assets/` 目录：地址栏访问 `https://github.com/supperJoshua/joshua-site/new/main/assets`，或在上传页把每张图的路径前缀写成 `assets/`。
+4. 把交付包 `assets/` 下的 5 张图拖入：`favicon.png`、`logo.png`、`avatar.png`、`hero.jpg`、`og-banner.jpg`。
+5. 页面下方填写提交信息（如 `add site assets`），点 **Commit changes**。
 
-   - 手动方式：
+### 方式二：Git 命令行（备选，需先安装 Git）
 
-     ```bash
-     git clone https://github.com/supperJoshua/joshua-site.git
-     cd joshua-site
-     # 把交付包 assets/ 下的 favicon.png、logo.png、avatar.png、hero.jpg、og-banner.jpg 放入 assets/
-     git add assets/
-     git commit -m "add site assets"
-     git push
-     ```
+```bash
+git clone https://github.com/supperJoshua/joshua-site.git
+cd joshua-site
+# 覆盖本包文件（含 assets/ 五图）后，按系统执行其一：
+bash deploy-local.sh                 # Linux / macOS / Git-Bash
+powershell -ExecutionPolicy Bypass -File .\deploy-local.ps1   # Windows PowerShell
+```
 
-   补图前 Pages 预览会裂图，属正常。
+手动等价操作：`git add assets/ && git commit -m "add site assets" && git push`。
 
-2. 仓库 **Settings → Pages**：Source 选 `Deploy from a branch`，分支 `main`、目录 `/ (root)`，保存。
-3. 等待部署完成，访问 `https://supperJoshua.github.io/joshua-site/`。
-4. 上线后把 `index.html` 中 `og:image` 的相对路径改为公网绝对 URL：
+> 补图前 Pages 预览会裂图，属正常现象。
+
+### 开启 Pages
+
+1. 仓库 **Settings → Pages**：Source 选 `Deploy from a branch`，分支 `main`、目录 `/ (root)`，保存。
+2. 等待部署完成，访问 `https://supperJoshua.github.io/joshua-site/`。
+3. 上线后把 `index.html` 中 `og:image`、`twitter:image` 的相对路径改为公网绝对 URL：
    `https://supperJoshua.github.io/joshua-site/assets/og-banner.jpg`。
 
 ## 响应式断点
