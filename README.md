@@ -32,6 +32,7 @@ joshua-site/
 ├── robots.txt              # 搜索引擎抓取规则
 ├── LICENSE                 # 版权保留声明
 ├── .nojekyll               # 关闭 GitHub Pages 的 Jekyll 处理
+├── .github/workflows/pages.yml  # Pages 部署工作流（手动触发）
 ├── deploy-local.sh         # Linux / macOS / Git-Bash 一键提交推送脚本（备选）
 ├── deploy-local.ps1        # Windows PowerShell 一键提交推送脚本（备选，需已装 Git）
 ├── README.md
@@ -51,13 +52,26 @@ python3 -m http.server 8080
 # 浏览器访问 http://localhost:8080
 ```
 
-## GitHub Pages 部署（只需一步）
+## GitHub Pages 部署
 
-文本文件已全部入库，`index.html` 的图片引用为公网绝对 URL，因此**不再需要上传任何图片**：
+文本文件已全部入库，`index.html` 的图片引用为公网绝对 URL，因此**不再需要上传任何图片**。
+
+### 方式 A：分支直部（推荐，步骤最少）
 
 1. 仓库 **Settings → Pages**：Source 选 `Deploy from a branch`，分支 `main`、目录 `/ (root)`，保存。
 2. 等待约 1 分钟，访问 `https://supperJoshua.github.io/joshua-site/`。
 3. 如需把分享图改指自有域名，替换 `index.html` 中两处 `og:image` / `twitter:image` 即可。
+
+### 方式 B：GitHub Actions 自动部署（已配好，需先启用 Pages）
+
+仓库已含 `.github/workflows/pages.yml`（手动触发版）：
+
+1. 仍需先在 **Settings → Pages** 把 Source 选为 `GitHub Actions`（一次即可）。
+2. 之后到 **Actions → Deploy static site to GitHub Pages → Run workflow** 发布。
+
+> 实测结论：Actions 内置 `GITHUB_TOKEN` 只能**部署**、不能**创建** Pages 站点。
+> 开启 `enablement: true` 后报错 `Create Pages site failed: Resource not accessible by integration`。
+> 因此自动创建 Pages 不可行，首次启用必须由仓库管理员在网页完成一次；故本工作流改为手动触发，避免每次 push 都产生失败记录。
 
 ### 长期演进：把图片本地化
 
@@ -84,6 +98,7 @@ git add . && git commit -m "chore: localize assets" && git push
 - 五张位图公网副本：`content-type` 分别为 `image/png` / `image/jpeg`，字节数与本地逐一相同，SHA-1 全部一致。
 - 线上入口 Playwright 实测：HTTP 200、`text/html; charset=utf-8`、5 张图全部加载、无 console 错误、1440 与 390 双视口均无横向溢出。
 - 仓库版 `index.html`：本地经公网加载五图成功，双视口无错误、无溢出；远端回读与本地字节完全一致。
+- 仓库主文件与 README、`index.relative.html` 远端回读均与本地字节一致。
 
 ## 待补内容（需本人确认后填充，当前为占位）
 
