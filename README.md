@@ -2,34 +2,45 @@
 
 数字生命 Joshua 对外个人品牌门面站，纯静态、无后端、无构建步骤、无 JS 依赖，响应式三档断点。
 
-## 两种 HTML 形态
+## 三种 HTML 形态（页面结构、文案、样式完全一致，仅图片引用方式不同）
 
-| 文件 | 形态 | 体积 | 用途 |
+| 文件 | 图片引用方式 | 体积 | 用途 |
 |---|---|---|---|
-| `index.html` | **自包含单文件版**：favicon / logo / hero / avatar 已内嵌为 data URI，不依赖本地图片文件 | ~412KB | 网页端上传这一个文件即可带图上线，**推荐** |
-| `index.relative.html` | 相对路径版：图片引用 `assets/` 目录 | ~21KB | 正式部署、后续换图或接入构建流程时使用 |
+| `index.html` | **公网绝对 URL**（已核验 200，字节与 SHA-1 与本地原图一致） | ~21KB | 仓库主文件。GitHub Pages 开启即可完整渲染，**无需任何二进制入库** |
+| `index.live.html` | data URI 内嵌（自包含单文件） | ~412KB | 已托管为即时公网入口；也可用于单文件分发、离线打开、任意静态托管 |
+| `index.relative.html` | 本地 `assets/` 相对路径 | ~21KB | 长期正式形态：位图入库后切换，由 Pages 独立缓存 |
 
-> 两版页面结构、文案、样式完全一致，仅图片引用方式不同。`og-banner.jpg` 是社交分享横幅，分享爬虫不识别 data URI，因此无论哪版都需作为独立文件放在 `assets/` 下。
+> `og-banner.jpg` 是社交分享横幅，分享爬虫只认公网绝对位图 URL，因此三版都把 `og:image` / `twitter:image` 指向公网地址。
+
+## 即时公网入口（不依赖 GitHub Pages）
+
+自包含单文件版由平台 CDN 以 `text/html` 直接提供，已实测 HTTP 200 与完整渲染：
+
+- **正式入口**（og / twitter 分享图已指向公网绝对 URL）：`https://aka.doubaocdn.com/s/wcqR83Vaxw`
+- 同源备份：`https://aka.doubaocdn.com/s/P3c6fePbPc`
+
+> 短链为临时地址，适合当前对外演示；长期门面请用 GitHub Pages 或自有域名。
 
 ## 目录结构
 
 ```
 joshua-site/
-├── index.html          # 自包含单文件版（内嵌 favicon/logo/hero/avatar）
-├── index.relative.html # 相对路径版（引用 assets/，供正式部署/换图）
-├── 404.html            # 404 占位页（同色系）
-├── robots.txt         # 搜索引擎抓取规则
-├── LICENSE             # 版权保留声明
-├── .nojekyll          # 关闭 GitHub Pages 的 Jekyll 处理
-├── deploy-local.sh     # Linux / macOS / Git-Bash 一键提交推送脚本（备选）
-├── deploy-local.ps1    # Windows PowerShell 一键提交推送脚本（备选，需已装 Git）
+├── index.html              # 公网 URL 引用版（Pages 直接可用）
+├── index.live.html         # 自包含单文件版（data URI，已托管）
+├── index.relative.html     # 本地 assets 相对路径版（正式形态备选）
+├── 404.html                # 404 占位页（同色系）
+├── robots.txt              # 搜索引擎抓取规则
+├── LICENSE                 # 版权保留声明
+├── .nojekyll               # 关闭 GitHub Pages 的 Jekyll 处理
+├── deploy-local.sh         # Linux / macOS / Git-Bash 一键提交推送脚本（备选）
+├── deploy-local.ps1        # Windows PowerShell 一键提交推送脚本（备选，需已装 Git）
 ├── README.md
-└── assets/
-    ├── favicon.png     # 站点图标（64×64 透明）
-    ├── logo.png        # 图形标（128×128 透明）
-    ├── avatar.png      # 头像（256×256 透明）
-    ├── hero.jpg        # Hero 母版立绘（900px 宽）
-    └── og-banner.jpg   # 社交分享横幅（1200px 宽，必须独立上传）
+└── assets/                 # 位图（当前未入库；index.html 走公网 URL，不依赖此目录）
+    ├── favicon.png         # 64×64 透明
+    ├── logo.png            # 128×128 透明
+    ├── avatar.png          # 256×256 透明
+    ├── hero.jpg            # 900×900 母版立绘
+    └── og-banner.jpg       # 1200×675 分享横幅
 ```
 
 ## 本地预览
@@ -40,46 +51,27 @@ python3 -m http.server 8080
 # 浏览器访问 http://localhost:8080
 ```
 
-## GitHub Pages 部署
+## GitHub Pages 部署（只需一步）
 
-仓库已在 GitHub 创建（`supperJoshua/joshua-site`，公开）。文本文件已入库，位图与 Pages 开关需在已登录 GitHub 的环境完成。
+文本文件已全部入库，`index.html` 的图片引用为公网绝对 URL，因此**不再需要上传任何图片**：
 
-### 方式一：网页端上传自包含单文件（推荐，操作最少，无需安装 Git）
+1. 仓库 **Settings → Pages**：Source 选 `Deploy from a branch`，分支 `main`、目录 `/ (root)`，保存。
+2. 等待约 1 分钟，访问 `https://supperJoshua.github.io/joshua-site/`。
+3. 如需把分享图改指自有域名，替换 `index.html` 中两处 `og:image` / `twitter:image` 即可。
 
-适合本机未装 Git 的 Windows / Mac：
+### 长期演进：把图片本地化
 
-1. 浏览器登录 GitHub，打开仓库 `https://github.com/supperJoshua/joshua-site`。
-2. **替换主文件**：进入 `index.html` → 铅笔编辑（或 Add file → Upload files），上传本包 `index.html`（自包含版）覆盖远端同名文件，提交。
-3. **补分享横幅**：进入 `assets/` 目录（地址栏访问 `https://github.com/supperJoshua/joshua-site/new/main/assets`），仅上传 `og-banner.jpg` 一张。
-   - favicon、logo、hero、avatar 已内嵌进 `index.html`，无需再传。
-4. 页面下方填写提交信息（如 `deploy: self-contained index + og banner`），点 **Commit changes**。
-
-### 方式二：网页端上传相对路径完整版
-
-1. 把本包 `index.relative.html` 重命名为 `index.html`。
-2. Add file → Upload files，连同 `assets/` 下 5 张图一起上传，路径前缀保持 `assets/`。
-3. 提交。
-
-### 方式三：Git 命令行（备选，需先安装 Git）
+当前 `index.html` 依赖公网图地址，属过渡方案。待有可执行 `git push` 的环境时：
 
 ```bash
 git clone https://github.com/supperJoshua/joshua-site.git
 cd joshua-site
-# 覆盖本包文件后，按系统执行其一：
-bash deploy-local.sh                 # Linux / macOS / Git-Bash
-powershell -ExecutionPolicy Bypass -File .\deploy-local.ps1   # Windows PowerShell
+cp /path/to/assets/*.png /path/to/assets/*.jpg assets/     # 补入五张原图
+cp index.relative.html index.html                          # 切回相对路径版
+git add . && git commit -m "chore: localize assets" && git push
 ```
 
-手动等价操作：`git add . && git commit -m "deploy site" && git push`。
-
-> 补图 / 替换主文件前，Pages 预览可能裂图，属正常现象。
-
-### 开启 Pages
-
-1. 仓库 **Settings → Pages**：Source 选 `Deploy from a branch`，分支 `main`、目录 `/ (root)`，保存。
-2. 等待部署完成，访问 `https://supperJoshua.github.io/joshua-site/`。
-3. 上线后把 `index.html` 中 `og:image`、`twitter:image` 的相对路径改为公网绝对 URL：
-   `https://supperJoshua.github.io/joshua-site/assets/og-banner.jpg`。
+或直接执行 `bash deploy-local.sh` / `powershell -ExecutionPolicy Bypass -File .\deploy-local.ps1`。
 
 ## 响应式断点
 
@@ -87,12 +79,18 @@ powershell -ExecutionPolicy Bypass -File .\deploy-local.ps1   # Windows PowerShe
 - 平板 640–1023：Hero 上下堆叠，产出 2 列，渠道 2 列。
 - 移动 <640：全部单列，导航链接可横向滑动。
 
+## 已核验事实
+
+- 五张位图公网副本：`content-type` 分别为 `image/png` / `image/jpeg`，字节数与本地逐一相同，SHA-1 全部一致。
+- 线上入口 Playwright 实测：HTTP 200、`text/html; charset=utf-8`、5 张图全部加载、无 console 错误、1440 与 390 双视口均无横向溢出。
+- 仓库版 `index.html`：本地经公网加载五图成功，双视口无错误、无溢出；远端回读与本地字节完全一致。
+
 ## 待补内容（需本人确认后填充，当前为占位）
 
 - [ ] 各社交渠道真实链接与昵称（GitHub / 知乎 / 小红书 / 公众号）
 - [ ] 首批可公开的文章、项目清单与标题链接
 - [ ] 对外公开履历口径：学校、职业头衔、机构归属（当前按保守口径未上墙）
-- [ ] `og:image` 公网绝对 URL
+- [x] `og:image` 公网绝对 URL（已完成）
 - [ ] 分身对话接入（阶段 C：RAG 检索闭环）
 
 ## 口径与合规
@@ -106,4 +104,4 @@ powershell -ExecutionPolicy Bypass -File .\deploy-local.ps1   # Windows PowerShe
 - 无后端、无表单、无访问统计；联系渠道为静态占位卡片。
 - 移动端导航为横向滑动，未做汉堡菜单。
 - 分身对话框为占位，未接真实检索与大模型。
-- 自包含版把四张图内嵌进 HTML，单文件体积较大；后续若图片增多，建议切回相对路径版并由 Pages 独立缓存。
+- 图片走公网短链为过渡方案：短链若失效需重新上传并更新 `index.html` 中的地址。
