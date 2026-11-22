@@ -1,8 +1,11 @@
+# 部署时先决条件：仓库 Settings → Pages 的 Source 需选 “GitHub Actions”。
+# 原因：Actions 内置的 GITHUB_TOKEN 只能部署，不能创建 Pages 站点
+# （实测报错 Create Pages site failed: Resource not accessible by integration），
+# 所以首次启用必须由仓库管理员在网页完成一次，之后本工作流可自动。
+# 启用 Pages 后，在 Actions 页面点 “Run workflow” 即可发布，或恢复 push 自动触发。
 name: Deploy static site to GitHub Pages
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -26,8 +29,6 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
