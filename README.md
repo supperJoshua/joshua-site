@@ -6,7 +6,7 @@
 
 | 文件 | 图片引用方式 | 体积 | 用途 |
 |---|---|---|---|
-| `index.html` | **公网绝对 URL**（已核验 200，字节与 SHA-1 与本地原图一致） | ~21KB | 仓库主文件。GitHub Pages 开启即可完整渲染，**无需任何二进制入库** |
+| `index.html` | **公网绝对 URL**（已核验 200，字节与 SHA-1 与本地原图一致） | ~21KB | 仓库主文件。GitHub Pages 开启或经 htmlpreview 通道即完整渲染 |
 | `index.live.html` | data URI 内嵌（自包含单文件） | ~412KB | 已托管为即时公网入口；也可用于单文件分发、离线打开、任意静态托管 |
 | `index.relative.html` | 本地 `assets/` 相对路径 | ~21KB | 长期正式形态：位图入库后切换，由 Pages 独立缓存 |
 
@@ -14,20 +14,25 @@
 
 ## 即时公网入口（不依赖 GitHub Pages）
 
+> 两个可用入口、全部托管通道实测结论、入口巡检方法，详见 [`LIVE.md`](./LIVE.md)。一键巡检：`bash check-live.sh`。
+
 自包含单文件版由平台 CDN 以 `text/html` 直接提供，已实测 HTTP 200 与完整渲染：
 
-- **正式入口**（og / twitter 分享图已指向公网绝对 URL）：`https://aka.doubaocdn.com/s/wcqR83Vaxw`
+- **入口 A · CDN 正式**（分享用，国内最快）：`https://aka.doubaocdn.com/s/wcqR83Vaxw`
 - 同源备份：`https://aka.doubaocdn.com/s/P3c6fePbPc`
+- **入口 B · GitHub 内容驱动**（长效，改仓库即生效）：`https://htmlpreview.github.io/?https://raw.githubusercontent.com/supperJoshua/joshua-site/main/index.html`
 
-> 短链为临时地址，适合当前对外演示；长期门面请用 GitHub Pages 或自有域名。
+> 短链为临时地址，适合当前对外演示；入口 B 跟随 `main` 更新，适合长期维护。完整门面仍建议开启 GitHub Pages 或绑自有域名。
 
 ## 目录结构
 
 ```
 joshua-site/
-├── index.html              # 公网 URL 引用版（Pages 直接可用）
+├── index.html              # 公网 URL 引用版（Pages / htmlpreview 可用）
 ├── index.live.html         # 自包含单文件版（data URI，已托管）
 ├── index.relative.html     # 本地 assets 相对路径版（正式形态备选）
+├── LIVE.md                 # 在线入口与托管通道实测结论
+├── check-live.sh           # 入口健康巡检脚本（bash check-live.sh）
 ├── 404.html                # 404 占位页（同色系）
 ├── robots.txt              # 搜索引擎抓取规则
 ├── LICENSE                 # 版权保留声明
@@ -73,6 +78,14 @@ python3 -m http.server 8080
 > 开启 `enablement: true` 后报错 `Create Pages site failed: Resource not accessible by integration`。
 > 因此自动创建 Pages 不可行，首次启用必须由仓库管理员在网页完成一次；故本工作流改为手动触发，避免每次 push 都产生失败记录。
 
+### 其他托管通道（已实测）
+
+- `cdn.jsdelivr.net`：HTML 被降级为 `text/plain`，不能渲染。
+- `cdn.statically.io`、`raw.githack.com`：网络不可达。
+- `htmlpreview.github.io`：可用，即入口 B。
+
+详见 [`LIVE.md`](./LIVE.md)。
+
 ### 长期演进：把图片本地化
 
 当前 `index.html` 依赖公网图地址，属过渡方案。待有可执行 `git push` 的环境时：
@@ -96,9 +109,10 @@ git add . && git commit -m "chore: localize assets" && git push
 ## 已核验事实
 
 - 五张位图公网副本：`content-type` 分别为 `image/png` / `image/jpeg`，字节数与本地逐一相同，SHA-1 全部一致。
-- 线上入口 Playwright 实测：HTTP 200、`text/html; charset=utf-8`、5 张图全部加载、无 console 错误、1440 与 390 双视口均无横向溢出。
+- 入口 A Playwright 实测：HTTP 200、`text/html; charset=utf-8`、5 张图全部加载、无 console 错误、1440 与 390 双视口均无横向溢出。
+- 入口 B Playwright 实测：`title = Joshua · 数字生命`、`h1 = JOSHUA / 张健华`、5 张图全部加载、渲染正常。
 - 仓库版 `index.html`：本地经公网加载五图成功，双视口无错误、无溢出；远端回读与本地字节完全一致。
-- 仓库主文件与 README、`index.relative.html` 远端回读均与本地字节一致。
+- 仓库主文件与 README、`LIVE.md`、`check-live.sh` 远端回读均与本地字节一致。
 
 ## 待补内容（需本人确认后填充，当前为占位）
 
@@ -106,6 +120,7 @@ git add . && git commit -m "chore: localize assets" && git push
 - [ ] 首批可公开的文章、项目清单与标题链接
 - [ ] 对外公开履历口径：学校、职业头衔、机构归属（当前按保守口径未上墙）
 - [x] `og:image` 公网绝对 URL（已完成）
+- [x] 在线入口与巡检脚本（已完成）
 - [ ] 分身对话接入（阶段 C：RAG 检索闭环）
 
 ## 口径与合规
@@ -119,4 +134,4 @@ git add . && git commit -m "chore: localize assets" && git push
 - 无后端、无表单、无访问统计；联系渠道为静态占位卡片。
 - 移动端导航为横向滑动，未做汉堡菜单。
 - 分身对话框为占位，未接真实检索与大模型。
-- 图片走公网短链为过渡方案：短链若失效需重新上传并更新 `index.html` 中的地址。
+- 入口 A 为 CDN 短链：若失效需重新上传并更新地址；入口 B 依赖 raw.githubusercontent.com 可达性。
